@@ -1,0 +1,8 @@
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Unity\Assets\Plugins\net35\SuperPvP.Core.dll
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Unity\Assets\Plugins\net35\SuperPvP.Core.pdb
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Core\obj\Debug\net35\SuperPvP.Core.csproj.CoreCompileInputs.cache
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Core\obj\Debug\net35\SuperPvP.Core.AssemblyInfoInputs.cache
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Core\obj\Debug\net35\SuperPvP.Core.AssemblyInfo.cs
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Core\obj\Debug\net35\SuperPvP.Core.dll
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Core\obj\Debug\net35\SuperPvP.Core.pdb
+C:\Users\Public\Documents\Unity Projects\SuperPvP\SuperPvP.Core\obj\Debug\net35\SuperPvP.Core.csprojResolveAssemblyReference.cache
