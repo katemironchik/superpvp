@@ -12,6 +12,10 @@ public class GameFieldInitializer : MonoBehaviour
             for (var j = 0; j < EnvironmentConfig.FieldSize; j++)
             {
                 var tile = Instantiate(tilePrefab, gameObject.transform);
+                var tileScript = tile.GetComponent<Tile>();
+                tileScript.i = i;
+                tileScript.j = j;
+
                 tile.transform.position = new Vector3(i, 0, j);
             }
         }

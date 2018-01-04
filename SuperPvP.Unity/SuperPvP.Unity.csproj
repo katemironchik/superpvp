@@ -314,8 +314,8 @@
     <Compile Include="Assets\Scripts\Configs\Tags.cs" />
     <Compile Include="Assets\Scripts\Field\DrugGenerator.cs" />
     <Compile Include="Assets\Scripts\Field\GameFieldInitializer.cs" />
-    <Compile Include="Assets\Scripts\Field\TileInput.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerInitializer.cs" />
+    <Compile Include="Assets\Scripts\Field\Tile.cs" />
+    <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Transport\Transport.cs" />
   </ItemGroup>
   <ItemGroup>

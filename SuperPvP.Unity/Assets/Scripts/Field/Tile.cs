@@ -1,9 +1,12 @@
 ﻿using Assets.Scripts.Configs;
 using UnityEngine;
 
-public class TileInput : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     private bool directionChosen;
+
+    public int i;
+    public int j;
     
     void Update()
     {
@@ -33,7 +36,7 @@ public class TileInput : MonoBehaviour
 
         if (directionChosen)
         {
-            var player = GameObject.Find(GameObjects.Player).GetComponent<PlayerInitializer>();
+            var player = GameObject.Find(GameObjects.Player).GetComponent<Player>();
             player.MoveTo(gameObject);
         }
     }

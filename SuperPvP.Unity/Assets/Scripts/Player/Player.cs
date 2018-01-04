@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Configs;
 using UnityEngine;
 
-public class PlayerInitializer : MonoBehaviour
+public class Player : MonoBehaviour
 {
     private GameObject targetDirection;
 
