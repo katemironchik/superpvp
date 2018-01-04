@@ -26,7 +26,7 @@ namespace SuperPvP.Core.Server
             Type = (PacketType)int.Parse(array[1]);
             if (array.Length >= 2)
             {
-                Data = array[3];
+                Data = array[2];
             }
         }
 

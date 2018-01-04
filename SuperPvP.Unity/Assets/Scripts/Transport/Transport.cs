@@ -1,5 +1,7 @@
 ﻿using NetcodeIO.NET;
 using ReliableNetcode;
+using SuperPvP.Core.Server;
+using SuperPvP.Core.Server.Models;
 using System.Collections;
 using System.Net;
 using UnityEngine;
@@ -47,8 +49,9 @@ public class Transport : MonoBehaviour
         {
             ReceiveCallback = (buffer, size) =>
             {
-                var received = System.Text.Encoding.ASCII.GetString(buffer);
-                print("Recived: " + received);
+                var packet = new TransportPacket(System.Text.Encoding.ASCII.GetString(buffer));
+                var serverObj = packet.Parse<ServerGameObject>();
+                print("Recived: " + packet);
             },
             TransmitCallback = (buffer, size) =>
             {
@@ -72,11 +75,6 @@ public class Transport : MonoBehaviour
         {
             print("Failed to connect: " + err);
         });
-    }
-    
-    private void ReceivePacket(NetcodeClient client, NetcodePacket packet)
-    {
-        endpoint.ReceivePacket(packet.PacketBuffer.InternalBuffer, packet.PacketBuffer.InternalBuffer.Length);
     }
 
     private IEnumerator UpdateStatus()
