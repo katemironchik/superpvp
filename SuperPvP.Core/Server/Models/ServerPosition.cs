@@ -5,5 +5,11 @@
         public int I { get; set; }
 
         public int J { get; set; }
+
+        public ServerPosition(int i, int j)
+        {
+            I = i;
+            J = j;
+        }
     }
 }
