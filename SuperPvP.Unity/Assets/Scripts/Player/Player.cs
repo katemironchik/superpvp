@@ -1,23 +1,24 @@
-﻿using Assets.Scripts.Configs;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private GameObject targetDirection;
+    private Vector3? targetDirection;
 
     // Use this for initialization
     void Start()
     {
+        var size = gameObject.GetComponent<Renderer>().bounds.size;
+        transform.position = new Vector3(transform.position.x, size.y / 2, transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (targetDirection != null)
+        if (targetDirection.HasValue)
         {
-            /*var targetPossition = targetDirection.transform.position;
+            var targetPossition = targetDirection.GetValueOrDefault();
             targetPossition.y = gameObject.transform.position.y;
-            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPossition, (float)0.1);*/
+            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPossition, (float)0.1);
         }
     }
 
@@ -30,7 +31,7 @@ public class Player : MonoBehaviour
         }
     }*/
 
-    public void MoveTo(GameObject targetDirection)
+    public void MoveTo(Vector3 targetDirection)
     {
         this.targetDirection = targetDirection;
     }

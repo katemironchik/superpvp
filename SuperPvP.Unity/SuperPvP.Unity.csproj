@@ -312,8 +312,8 @@
     <Compile Include="Assets\Scripts\Configs\GameObjects.cs" />
     <Compile Include="Assets\Scripts\Configs\Prefabs.cs" />
     <Compile Include="Assets\Scripts\Configs\Tags.cs" />
+    <Compile Include="Assets\Scripts\Drug\Drug.cs" />
     <Compile Include="Assets\Scripts\Field\Dictionary.cs" />
-    <Compile Include="Assets\Scripts\Field\DrugGenerator.cs" />
     <Compile Include="Assets\Scripts\Field\GameField.cs" />
     <Compile Include="Assets\Scripts\Field\Tile.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />

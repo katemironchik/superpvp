@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33711616690401386}
   - component: {fileID: 136763363088525366}
   - component: {fileID: 23862839164982364}
-  - component: {fileID: 114445210944115662}
+  - component: {fileID: 114605564967869236}
   m_Layer: 0
   m_Name: Drug
   m_TagString: drug
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146169533844610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.5253954, y: 0.6020951, z: -2.8478117}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146169533844610}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114445210944115662
+--- !u!114 &114605564967869236
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1146169533844610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0307050462a465499f1fd7088c2a61b, type: 3}
+  m_Script: {fileID: 11500000, guid: e7f038d1af81b484aa2ef9fe028e8ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!136 &136763363088525366

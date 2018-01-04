@@ -57,16 +57,21 @@ public class GameField : MonoBehaviour
 
     private void GenerateGameObject(ServerGameObject serverGameObject)
     {
+        var serverToGamePosition = tiles[serverGameObject.Position.I, serverGameObject.Position.J].transform.position;
         GameObject go;
         if (objects.ContainsKey(serverGameObject.Id))
         {
             go = objects[serverGameObject.Id];
+            if (serverGameObject.Type == GameObjectType.Player || serverGameObject.Type == GameObjectType.Enemy)
+            {
+                go.GetComponent<Player>().MoveTo(serverToGamePosition);
+            }
         }
         else
         {
             go = Instantiate(prefabs[serverGameObject.Type]);
             objects.Add(serverGameObject.Id, go);
+            go.transform.position = serverToGamePosition;
         }
-        go.transform.position = tiles[serverGameObject.Position.I, serverGameObject.Position.J].transform.position;
     }
 }

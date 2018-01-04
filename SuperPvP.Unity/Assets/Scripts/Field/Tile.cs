@@ -43,7 +43,7 @@ public class Tile : MonoBehaviour
             }
             if (player != null)
             {
-                player.GetComponent<Player>().MoveTo(gameObject);
+                player.GetComponent<Player>().MoveTo(gameObject.transform.position);
             }
         }
     }
