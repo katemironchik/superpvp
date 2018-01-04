@@ -6,6 +6,10 @@
 
         public int J { get; set; }
 
+        public ServerPosition()
+        {
+        }
+
         public ServerPosition(int i, int j)
         {
             I = i;
