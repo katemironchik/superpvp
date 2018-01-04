@@ -4,6 +4,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     private bool directionChosen;
+    private GameObject player;
 
     public int i;
     public int j;
@@ -36,8 +37,14 @@ public class Tile : MonoBehaviour
 
         if (directionChosen)
         {
-            var player = GameObject.Find(GameObjects.Player).GetComponent<Player>();
-            player.MoveTo(gameObject);
+            if (player == null)
+            {
+                player = GameObject.Find(GameObjects.Player);
+            }
+            if (player != null)
+            {
+                player.GetComponent<Player>().MoveTo(gameObject);
+            }
         }
     }
 }

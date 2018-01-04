@@ -15,20 +15,20 @@ public class Player : MonoBehaviour
     {
         if (targetDirection != null)
         {
-            var targetPossition = targetDirection.transform.position;
+            /*var targetPossition = targetDirection.transform.position;
             targetPossition.y = gameObject.transform.position.y;
-            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPossition, (float)0.1);
+            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPossition, (float)0.1);*/
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    /*void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == Tags.Drug)
         {
             var field = GameObject.Find(GameObjects.GameField).GetComponent<DrugGenerator>();
             field.DestroyDrug(collision.gameObject);
         }
-    }
+    }*/
 
     public void MoveTo(GameObject targetDirection)
     {

@@ -1,7 +1,7 @@
-﻿using NetcodeIO.NET;
+﻿using Assets.Scripts.Transport;
+using NetcodeIO.NET;
 using ReliableNetcode;
 using SuperPvP.Core.Server;
-using SuperPvP.Core.Server.Models;
 using System.Collections;
 using System.Net;
 using UnityEngine;
@@ -12,6 +12,8 @@ public class Transport : MonoBehaviour
     private int updateTimeout = 1;
     protected NetcodeClient client;
     protected ReliableEndpoint endpoint;
+
+    private ServerResponseProcessor processor;
 
     private static readonly byte[] _privateKey = new byte[]
     {
@@ -24,6 +26,7 @@ public class Transport : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        processor = gameObject.GetComponent<ServerResponseProcessor>();
         UnityNetcode.QuerySupport((supportStatus) =>
         {
             UnityNetcode.CreateClient(NetcodeIOClientProtocol.IPv4, (client) =>
@@ -50,7 +53,7 @@ public class Transport : MonoBehaviour
             ReceiveCallback = (buffer, size) =>
             {
                 var packet = new TransportPacket(System.Text.Encoding.ASCII.GetString(buffer));
-                var serverObj = packet.Parse<ServerGameObject>();
+                processor.Process(packet);
                 print("Recived: " + packet);
             },
             TransmitCallback = (buffer, size) =>

@@ -26,13 +26,13 @@ namespace SuperPvP.Core.Server
             Type = (PacketType)int.Parse(array[1]);
             if (array.Length >= 2)
             {
-                Data = array[2];
+                Data = array[2].Replace("\\", string.Empty).Trim('"');
             }
         }
 
         public T Parse<T>()
         {
-            return string.IsNullOrEmpty(Data) ? JsonConvert.DeserializeObject<T>(Data) : default(T);
+            return !string.IsNullOrEmpty(Data) ? JsonConvert.DeserializeObject<T>(Data) : default(T);
         }
 
         public override string ToString()
