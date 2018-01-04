@@ -1,6 +1,0 @@
-C:\Users\Public\Documents\Unity Projects\SuperPvP\ReliableNetcode\bin\Debug\ReliableNetcode.dll
-C:\Users\Public\Documents\Unity Projects\SuperPvP\ReliableNetcode\bin\Debug\ReliableNetcode.pdb
-C:\Users\Public\Documents\Unity Projects\SuperPvP\ReliableNetcode\obj\Debug\ReliableNetcode.NET.csprojResolveAssemblyReference.cache
-C:\Users\Public\Documents\Unity Projects\SuperPvP\ReliableNetcode\obj\Debug\ReliableNetcode.NET.csproj.CoreCompileInputs.cache
-C:\Users\Public\Documents\Unity Projects\SuperPvP\ReliableNetcode\obj\Debug\ReliableNetcode.dll
-C:\Users\Public\Documents\Unity Projects\SuperPvP\ReliableNetcode\obj\Debug\ReliableNetcode.pdb
