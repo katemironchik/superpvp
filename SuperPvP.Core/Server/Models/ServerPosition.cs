@@ -1,6 +1,6 @@
 ﻿namespace SuperPvP.Core.Server.Models
 {
-    public class ServerPossition
+    public class ServerPosition
     {
         public int I { get; set; }
 

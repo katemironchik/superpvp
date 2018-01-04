@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public ServerPossition Possition { get; set; }
+        public ServerPosition Position { get; set; }
 
         public GameObjectType Type { get; set; }
     }

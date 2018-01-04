@@ -3,7 +3,8 @@
     public enum PacketType
     {
         Undefined = 0,
-        Update = 1,
-        Command = 2
+        Initialize = 1,
+        Update = 2,
+        Command = 3
     }
 }
