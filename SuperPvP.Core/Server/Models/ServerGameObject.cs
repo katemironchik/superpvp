@@ -2,10 +2,10 @@
 {
     public class ServerGameObject
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public Possition possition { get; set; }
+        public ServerPossition Possition { get; set; }
 
-        public GameObjectType type { get; set; }
+        public GameObjectType Type { get; set; }
     }
 }

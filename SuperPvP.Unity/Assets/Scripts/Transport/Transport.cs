@@ -1,5 +1,5 @@
 ﻿using NetcodeIO.NET;
-using SuperPvP.Core.Server.Models;
+using ReliableNetcode;
 using System.Collections;
 using System.Net;
 using UnityEngine;
@@ -7,9 +7,9 @@ using UnityNetcodeIO;
 
 public class Transport : MonoBehaviour
 {
-    public string outputText;
-
+    private int updateTimeout = 1;
     protected NetcodeClient client;
+    protected ReliableEndpoint endpoint;
 
     private static readonly byte[] _privateKey = new byte[]
     {
@@ -43,31 +43,43 @@ public class Transport : MonoBehaviour
             1UL,
             new byte[256]);
         
+        endpoint = new ReliableEndpoint
+        {
+            ReceiveCallback = (buffer, size) =>
+            {
+                var received = System.Text.Encoding.ASCII.GetString(buffer);
+                print("Recived: " + received);
+            },
+            TransmitCallback = (buffer, size) =>
+            {
+                client.Send(buffer);
+            }
+        };
+
         client.Connect(connectToken, () =>
         {
             print("Connected to netcode.io server!");
 
             // add listener for network messages
-            client.AddPayloadListener(ReceivePacket);
+            client.AddPayloadListener((client, packet) =>
+            {
+                endpoint.ReceivePacket(packet.PacketBuffer.InternalBuffer, packet.PacketBuffer.InternalBuffer.Length);
+            });
 
-            // do stuff
-            StartCoroutine(updateStatus());
-            StartCoroutine(doStuff());
+            StartCoroutine(UpdateStatus());
+            StartCoroutine(UpdateEndpoint());
         }, (err) =>
         {
             print("Failed to connect: " + err);
         });
     }
-
-    int received = 0;
+    
     private void ReceivePacket(NetcodeClient client, NetcodePacket packet)
     {
-        received++;
-        var packetBuffer = packet.PacketBuffer.ToString();
-        print("Recived: " + packetBuffer);
+        endpoint.ReceivePacket(packet.PacketBuffer.InternalBuffer, packet.PacketBuffer.InternalBuffer.Length);
     }
 
-    private IEnumerator updateStatus()
+    private IEnumerator UpdateStatus()
     {
         while (true)
         {
@@ -76,28 +88,16 @@ public class Transport : MonoBehaviour
                 print(string.Format("status: {0}({1})", status, (int)status));
             });
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(updateTimeout);
         }
     }
 
-    IEnumerator doStuff()
+    private IEnumerator UpdateEndpoint()
     {
-        int sent = 0;
-
         while (true)
         {
-            if (client.Status == NetcodeClientStatus.Connected)
-            {
-                // send a packet
-                var packetStr = "pkt " + sent + "! " + System.DateTime.Now.ToString();
-                sent++;
-                
-                var packetBuffer = System.Text.Encoding.ASCII.GetBytes(packetStr);
-
-                client.Send(packetBuffer);
-            }
-
-            yield return new WaitForSeconds(1);
+            endpoint.Update();
+            yield return new WaitForSeconds(updateTimeout);
         }
     }
 }
