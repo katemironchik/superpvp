@@ -11,12 +11,13 @@ namespace SuperPvP.Core.Server
         {
             var builder = new FlatBufferBuilder(1);
 
-            Packet.StartPacket(builder);
-            Packet.AddTickId(builder, tickId);
-            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Initialize);
             Packet.StartDataVector(builder, 1);
             ObjectChange.CreateObjectChange(builder, id, ObjectType.Player, i, j);
             builder.EndVector();
+
+            Packet.StartPacket(builder);
+            Packet.AddTickId(builder, tickId);
+            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Initialize);
 
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
@@ -27,9 +28,6 @@ namespace SuperPvP.Core.Server
         {
             var builder = new FlatBufferBuilder(1);
 
-            Packet.StartPacket(builder);
-            Packet.AddTickId(builder, tickId);
-            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
             Packet.StartDataVector(builder, changes.Count);
             foreach (var change in changes)
             {
@@ -37,6 +35,10 @@ namespace SuperPvP.Core.Server
                 ObjectChange.CreateObjectChange(builder, change.Id, type, change.Position.I, change.Position.J);
             }
             builder.EndVector();
+
+            Packet.StartPacket(builder);
+            Packet.AddTickId(builder, tickId);
+            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
 
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
@@ -47,9 +49,6 @@ namespace SuperPvP.Core.Server
         {
             var builder = new FlatBufferBuilder(1);
 
-            Packet.StartPacket(builder);
-            Packet.AddTickId(builder, tickId);
-            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
             Packet.StartDataVector(builder, 1);
             ObjectChange.CreateObjectChange(builder,
                 targetState.Id,
@@ -57,6 +56,10 @@ namespace SuperPvP.Core.Server
                 targetState.Position.I,
                 targetState.Position.J);
             builder.EndVector();
+
+            Packet.StartPacket(builder);
+            Packet.AddTickId(builder, tickId);
+            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
 
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
