@@ -5,6 +5,7 @@
         Undefined = 0,
         Initialize = 1,
         Update = 2,
-        Command = 3
+        Command = 3,
+        Finish = 4
     }
 }

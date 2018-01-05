@@ -63,17 +63,20 @@ namespace SuperPvP.Core.Server
             return builder.DataBuffer.Data;
         }
 
-        public static List<ServerGameObject> DecodePacket(byte[] data)
+        public static TransportPacket DecodePacket(byte[] data)
         {
+            var result = new TransportPacket();
             var packet = Packet.GetRootAsPacket(new ByteBuffer(data));
-            var result = new List<ServerGameObject>();
+            result.TickId = packet.TickId;
+            result.Type = (PacketType)((int)packet.Type);
+
             for (int i = 0; i < packet.DataLength; i++)
             {
                 if (!packet.Data(i).HasValue) continue;
                 var change = packet.Data(i).Value;
                 var type = change.Type == ObjectType.Player ? GameObjectType.Player : GameObjectType.Drug;
 
-                result.Add(new ServerGameObject
+                result.changes.Add(new ServerGameObject
                 {
                     Id = change.Id,
                     Type = type,
