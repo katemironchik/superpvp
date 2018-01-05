@@ -270,6 +270,9 @@
     <Reference Include="Netcode.IO.NET">
       <HintPath>Assets/libs/Assets/UnityNetcodeIO/Plugins/Netcode.IO.NET.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets/Plugins/net35/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SuperPvP.Core">
       <HintPath>Assets/Plugins/net35/SuperPvP.Core.dll</HintPath>
     </Reference>
@@ -297,9 +300,6 @@
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/Kate/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets/Plugins/net35/Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Plugins\NetcodePluginWrapper.cs" />
@@ -317,6 +317,7 @@
     <Compile Include="Assets\Scripts\Field\GameField.cs" />
     <Compile Include="Assets\Scripts\Field\Tile.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
+    <Compile Include="Assets\Scripts\Transport\ServerCommandSender.cs" />
     <Compile Include="Assets\Scripts\Transport\ServerResponseProcessor.cs" />
     <Compile Include="Assets\Scripts\Transport\Transport.cs" />
   </ItemGroup>

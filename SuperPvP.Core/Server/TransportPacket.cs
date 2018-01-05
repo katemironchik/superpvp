@@ -1,22 +1,27 @@
 ﻿using Newtonsoft.Json;
+using System.Text;
 
 namespace SuperPvP.Core.Server
 {
     public class TransportPacket
     {
+        private static Encoding encoding = Encoding.ASCII;
         private static char separator = '|';
 
-        public ulong TickId { get; set; }
+        public ulong TickId { get; private set; }
 
         public PacketType Type { get; set; }
 
         public string Data { get; set; }
 
-        public TransportPacket(ulong tick, PacketType type, object data)
+        public TransportPacket(PacketType type, object data)
         {
-            TickId = tick;
             Type = type;
             Data = JsonConvert.SerializeObject(data);
+        }
+
+        public TransportPacket(byte[] buffer) : this(encoding.GetString(buffer))
+        {
         }
 
         public TransportPacket(string recivedData)
@@ -30,6 +35,11 @@ namespace SuperPvP.Core.Server
             }
         }
 
+        public void SetTickId(ulong tickId)
+        {
+            TickId = tickId;
+        }
+
         public T Parse<T>()
         {
             return !string.IsNullOrEmpty(Data) ? JsonConvert.DeserializeObject<T>(Data) : default(T);
@@ -39,6 +49,11 @@ namespace SuperPvP.Core.Server
         {
             var array = new string[] { TickId.ToString(), ((int)Type).ToString(), Data };            
             return string.Join(separator.ToString(), array);
+        }
+        
+        public byte[] ToByteArray()
+        {
+            return encoding.GetBytes(ToString());
         }
     }
 }

@@ -5,10 +5,16 @@ public class Tile : MonoBehaviour
 {
     private bool directionChosen;
     private GameObject player;
+    private ServerCommandSender commandSender;
 
     public int i;
     public int j;
-    
+
+    void Start()
+    {
+        commandSender = GameObject.Find(GameObjects.ServerTransport).GetComponent<ServerCommandSender>();
+    }
+
     void Update()
     {
     }
@@ -37,14 +43,15 @@ public class Tile : MonoBehaviour
 
         if (directionChosen)
         {
-            if (player == null)
+            commandSender.SendPlayerMoveData(i, j);
+            /*if (player == null)
             {
                 player = GameObject.Find(GameObjects.Player);
             }
             if (player != null)
             {
                 player.GetComponent<Player>().MoveTo(gameObject.transform.position);
-            }
+            }*/
         }
     }
 }

@@ -13,6 +13,8 @@ public class Transport : MonoBehaviour
     protected NetcodeClient client;
     protected ReliableEndpoint endpoint;
 
+    private ulong tick = 0;
+
     private ServerResponseProcessor processor;
 
     private static readonly byte[] _privateKey = new byte[]
@@ -38,6 +40,14 @@ public class Transport : MonoBehaviour
         });
     }
 
+    public void SendPacketToServer(TransportPacket packet)
+    {
+        packet.SetTickId(tick);
+        var buffer = packet.ToByteArray();
+        endpoint.SendMessage(buffer, buffer.Length, QosType.Reliable);
+        print("Send: " + packet);
+    }
+
     private void connectToServer()
     {
         var factory = new TokenFactory(0x1122334455667788L, _privateKey);
@@ -52,9 +62,17 @@ public class Transport : MonoBehaviour
         {
             ReceiveCallback = (buffer, size) =>
             {
-                var packet = new TransportPacket(System.Text.Encoding.ASCII.GetString(buffer));
-                processor.Process(packet);
-                print("Recived: " + packet);
+                var packet = new TransportPacket(buffer);
+                if (packet.TickId > tick)
+                {
+                    processor.Process(packet);
+                    print("Recived: " + packet);
+                    tick = packet.TickId;
+                }
+                else
+                {
+                    print("Skip: " + packet);
+                }
             },
             TransmitCallback = (buffer, size) =>
             {
