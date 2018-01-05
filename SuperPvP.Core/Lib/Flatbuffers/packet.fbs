@@ -1,0 +1,24 @@
+namespace SuperPvp.Core.Transport;
+
+enum PacketType: byte {Undefined = 0, Initialize = 1, Update = 2, Command = 3, Finish = 4 }
+
+enum ObjectType: byte { Player = 0, Drug = 1 }
+
+struct Position {
+    i: int;
+    j: int;
+}
+
+struct ObjectChange {
+    id: int;
+    type: ObjectType;
+    position: Position;
+}
+
+table Packet {
+    tickId: ulong;
+    type: PacketType;
+    data: [ObjectChange];
+}
+
+root_type Packet;
