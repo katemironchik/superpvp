@@ -4,10 +4,17 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     private bool directionChosen;
+    private GameObject player;
+    private ServerCommandSender commandSender;
 
     public int i;
     public int j;
-    
+
+    void Start()
+    {
+        commandSender = GameObject.Find(GameObjects.ServerTransport).GetComponent<ServerCommandSender>();
+    }
+
     void Update()
     {
     }
@@ -36,8 +43,15 @@ public class Tile : MonoBehaviour
 
         if (directionChosen)
         {
-            var player = GameObject.Find(GameObjects.Player).GetComponent<Player>();
-            player.MoveTo(gameObject);
+            commandSender.SendPlayerMoveData(i, j);
+            /*if (player == null)
+            {
+                player = GameObject.Find(GameObjects.Player);
+            }
+            if (player != null)
+            {
+                player.GetComponent<Player>().MoveTo(gameObject.transform.position);
+            }*/
         }
     }
 }

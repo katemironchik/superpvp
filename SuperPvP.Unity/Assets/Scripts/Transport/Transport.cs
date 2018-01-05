@@ -1,7 +1,7 @@
-﻿using NetcodeIO.NET;
+﻿using Assets.Scripts.Transport;
+using NetcodeIO.NET;
 using ReliableNetcode;
 using SuperPvP.Core.Server;
-using SuperPvP.Core.Server.Models;
 using System.Collections;
 using System.Net;
 using UnityEngine;
@@ -12,6 +12,10 @@ public class Transport : MonoBehaviour
     private int updateTimeout = 1;
     protected NetcodeClient client;
     protected ReliableEndpoint endpoint;
+
+    private ulong tick = 0;
+
+    private ServerResponseProcessor processor;
 
     private static readonly byte[] _privateKey = new byte[]
     {
@@ -24,6 +28,7 @@ public class Transport : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        processor = gameObject.GetComponent<ServerResponseProcessor>();
         UnityNetcode.QuerySupport((supportStatus) =>
         {
             UnityNetcode.CreateClient(NetcodeIOClientProtocol.IPv4, (client) =>
@@ -33,6 +38,14 @@ public class Transport : MonoBehaviour
                 connectToServer();
             });
         });
+    }
+
+    public void SendPacketToServer(TransportPacket packet)
+    {
+        packet.SetTickId(tick);
+        var buffer = packet.ToByteArray();
+        endpoint.SendMessage(buffer, buffer.Length, QosType.Reliable);
+        print("Send: " + packet);
     }
 
     private void connectToServer()
@@ -49,9 +62,17 @@ public class Transport : MonoBehaviour
         {
             ReceiveCallback = (buffer, size) =>
             {
-                var packet = new TransportPacket(System.Text.Encoding.ASCII.GetString(buffer));
-                var serverObj = packet.Parse<ServerGameObject>();
-                print("Recived: " + packet);
+                var packet = new TransportPacket(buffer);
+                if (packet.TickId > tick)
+                {
+                    processor.Process(packet);
+                    print("Recived: " + packet);
+                    tick = packet.TickId;
+                }
+                else
+                {
+                    print("Skip: " + packet);
+                }
             },
             TransmitCallback = (buffer, size) =>
             {
