@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameField : MonoBehaviour
 {
     private Dictionary<GameObjectType, GameObject> prefabs;
-    private int playerId;
+    public int PlayerId;
     private GameObject[,] tiles = new GameObject[EnvironmentConfig.FieldSize, EnvironmentConfig.FieldSize];
     private Dictionary<int, GameObject> objects = new Dictionary<int, GameObject>();
 
@@ -52,7 +52,7 @@ public class GameField : MonoBehaviour
 
     public void SetPlayerIdentifier(int serverData)
     {
-        playerId = serverData;
+        PlayerId = serverData;
     }
 
     private void GenerateGameObject(ServerGameObject serverGameObject)
@@ -72,6 +72,7 @@ public class GameField : MonoBehaviour
             go = Instantiate(prefabs[serverGameObject.Type]);
             objects.Add(serverGameObject.Id, go);
             go.transform.position = serverToGamePosition;
+            go.GetComponent<ServerIdKeeper>().ServerId = serverGameObject.Id;
         }
     }
 }

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 136763363088525366}
   - component: {fileID: 23862839164982364}
   - component: {fileID: 114605564967869236}
+  - component: {fileID: 114940903128227772}
   m_Layer: 0
   m_Name: Drug
   m_TagString: drug
@@ -95,6 +96,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f038d1af81b484aa2ef9fe028e8ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114940903128227772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146169533844610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e32c81d31e34b140b358214a442b317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerId: 0
 --- !u!136 &136763363088525366
 CapsuleCollider:
   m_ObjectHideFlags: 1

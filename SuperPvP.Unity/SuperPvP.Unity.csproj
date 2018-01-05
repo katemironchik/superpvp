@@ -315,6 +315,7 @@
     <Compile Include="Assets\Scripts\Drug\Drug.cs" />
     <Compile Include="Assets\Scripts\Field\Dictionary.cs" />
     <Compile Include="Assets\Scripts\Field\GameField.cs" />
+    <Compile Include="Assets\Scripts\Field\ServerIdKeeper.cs" />
     <Compile Include="Assets\Scripts\Field\Tile.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Transport\ServerCommandSender.cs" />
