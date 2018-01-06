@@ -29,7 +29,6 @@ public class ServerCommandSender : MonoBehaviour
             Position = new ServerPosition(i, j),
             Type = GameObjectType.Player
         };
-        var packet = new TransportPacket(PacketType.Command, go);
-        transport.SendPacketToServer(packet);
+        transport.SendPacketToServer(go);
     }
 }

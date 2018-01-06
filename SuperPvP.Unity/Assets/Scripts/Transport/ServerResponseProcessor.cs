@@ -30,14 +30,12 @@ namespace Assets.Scripts.Transport
 
         private void RenderField(TransportPacket packet)
         {
-            var data = packet.Parse<List<ServerGameObject>>();
-            field.RefreshFieldFromServer(data);
+            field.RefreshFieldFromServer(packet.changes);
         }
 
         private void SetPlayerIdentifier(TransportPacket packet)
         {
-            var data = packet.Parse<int>();
-            field.SetPlayerIdentifier(data);
+            field.SetPlayerIdentifier(packet.changes[0].Id);
         }
     }
 }

@@ -2,6 +2,7 @@
 using NetcodeIO.NET;
 using ReliableNetcode;
 using SuperPvP.Core.Server;
+using SuperPvP.Core.Server.Models;
 using System.Collections;
 using System.Net;
 using UnityEngine;
@@ -40,12 +41,10 @@ public class Transport : MonoBehaviour
         });
     }
 
-    public void SendPacketToServer(TransportPacket packet)
+    public void SendPacketToServer(ServerGameObject change)
     {
-        packet.SetTickId(tick);
-        var buffer = packet.ToByteArray();
+        var buffer = PacketGenerator.CreateCommandPacket(tick, change);
         endpoint.SendMessage(buffer, buffer.Length, QosType.Reliable);
-        print("Send: " + packet);
     }
 
     private void connectToServer()
@@ -62,7 +61,7 @@ public class Transport : MonoBehaviour
         {
             ReceiveCallback = (buffer, size) =>
             {
-                var packet = new TransportPacket(buffer);
+                var packet = PacketGenerator.DecodePacket(buffer);
                 if (packet.TickId > tick)
                 {
                     processor.Process(packet);
