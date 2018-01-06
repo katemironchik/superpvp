@@ -8,7 +8,7 @@ namespace SuperPvP.Core.Server
 {
     public class PacketGenerator
     {
-        public static KeyValuePair<int, byte[]> CreateInitPacket(ulong tickId, int id,  int i, int j)
+        public static byte[] CreateInitPacket(ulong tickId, int id,  int i, int j)
         {
             var builder = new FlatBufferBuilder(1);
 
@@ -24,10 +24,10 @@ namespace SuperPvP.Core.Server
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
 
-            return new KeyValuePair<int, byte[]>(builder.DataBuffer.Position, builder.DataBuffer.Data);
+            return builder.SizedByteArray();
         }
 
-        public static KeyValuePair<int, byte[]> CreateUpdatePacket(ulong tickId, List<ServerGameObject> changes)
+        public static byte[] CreateUpdatePacket(ulong tickId, List<ServerGameObject> changes)
         {
             var builder = new FlatBufferBuilder(1);
 
@@ -47,10 +47,10 @@ namespace SuperPvP.Core.Server
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
 
-            return new KeyValuePair<int, byte[]>(builder.DataBuffer.Position, builder.DataBuffer.Data);
+            return builder.SizedByteArray();
         }
 
-        public static KeyValuePair<int, byte[]> CreateCommandPacket(ulong tickId, ServerGameObject targetState)
+        public static byte[] CreateCommandPacket(ulong tickId, ServerGameObject targetState)
         {
             var builder = new FlatBufferBuilder(1);
 
@@ -70,13 +70,13 @@ namespace SuperPvP.Core.Server
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
 
-            return new KeyValuePair<int, byte[]>(builder.DataBuffer.Position, builder.DataBuffer.Data);
+            return builder.SizedByteArray();
         }
 
-        public static TransportPacket DecodePacket(byte[] data, int size)
+        public static TransportPacket DecodePacket(byte[] data)
         {
             var result = new TransportPacket();
-            var packet = Packet.GetRootAsPacket(new ByteBuffer(data, size));
+            var packet = Packet.GetRootAsPacket(new ByteBuffer(data));
             result.TickId = packet.TickId;
             result.Type = (PacketType)((int)packet.Type);
 
