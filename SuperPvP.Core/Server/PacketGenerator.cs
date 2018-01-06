@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FlatBuffers;
 using SuperPvp.Core.Transport;
 using SuperPvP.Core.Server.Models;
@@ -7,24 +8,26 @@ namespace SuperPvP.Core.Server
 {
     public class PacketGenerator
     {
-        public static byte[] CreateInitPacket(ulong tickId, int id,  int i, int j)
+        public static KeyValuePair<int, byte[]> CreateInitPacket(ulong tickId, int id,  int i, int j)
         {
             var builder = new FlatBufferBuilder(1);
 
             Packet.StartDataVector(builder, 1);
             ObjectChange.CreateObjectChange(builder, id, ObjectType.Player, i, j);
-            builder.EndVector();
+            var dataOffset = builder.EndVector();
 
             Packet.StartPacket(builder);
             Packet.AddTickId(builder, tickId);
             Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Initialize);
+            Packet.AddData(builder, dataOffset);
 
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
-            return builder.DataBuffer.Data;
+
+            return new KeyValuePair<int, byte[]>(builder.DataBuffer.Position, builder.DataBuffer.Data);
         }
 
-        public static byte[] CreateUpdatePacket(ulong tickId, List<ServerGameObject> changes)
+        public static KeyValuePair<int, byte[]> CreateUpdatePacket(ulong tickId, List<ServerGameObject> changes)
         {
             var builder = new FlatBufferBuilder(1);
 
@@ -34,18 +37,20 @@ namespace SuperPvP.Core.Server
                 var type = change.Type == GameObjectType.Player ? ObjectType.Player : ObjectType.Drug;
                 ObjectChange.CreateObjectChange(builder, change.Id, type, change.Position.I, change.Position.J);
             }
-            builder.EndVector();
+            var dataOffset = builder.EndVector();
 
             Packet.StartPacket(builder);
             Packet.AddTickId(builder, tickId);
             Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
+            Packet.AddData(builder, dataOffset);
 
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
-            return builder.DataBuffer.Data;
+
+            return new KeyValuePair<int, byte[]>(builder.DataBuffer.Position, builder.DataBuffer.Data);
         }
 
-        public static byte[] CreateCommandPacket(ulong tickId, ServerGameObject targetState)
+        public static KeyValuePair<int, byte[]> CreateCommandPacket(ulong tickId, ServerGameObject targetState)
         {
             var builder = new FlatBufferBuilder(1);
 
@@ -55,21 +60,23 @@ namespace SuperPvP.Core.Server
                 ObjectType.Player,
                 targetState.Position.I,
                 targetState.Position.J);
-            builder.EndVector();
+            var dataOffset = builder.EndVector();
 
             Packet.StartPacket(builder);
             Packet.AddTickId(builder, tickId);
             Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
+            Packet.AddData(builder, dataOffset);
 
             var packet = Packet.EndPacket(builder);
             builder.Finish(packet.Value);
-            return builder.DataBuffer.Data;
+
+            return new KeyValuePair<int, byte[]>(builder.DataBuffer.Position, builder.DataBuffer.Data);
         }
 
-        public static TransportPacket DecodePacket(byte[] data)
+        public static TransportPacket DecodePacket(byte[] data, int size)
         {
             var result = new TransportPacket();
-            var packet = Packet.GetRootAsPacket(new ByteBuffer(data));
+            var packet = Packet.GetRootAsPacket(new ByteBuffer(data, size));
             result.TickId = packet.TickId;
             result.Type = (PacketType)((int)packet.Type);
 
