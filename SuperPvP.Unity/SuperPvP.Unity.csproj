@@ -262,11 +262,8 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="BCCrypto">
-      <HintPath>Assets/libs/Assets/UnityNetcodeIO/Plugins/BCCrypto.dll</HintPath>
-    </Reference>
-    <Reference Include="Netcode.IO.NET">
-      <HintPath>Assets/libs/Assets/UnityNetcodeIO/Plugins/Netcode.IO.NET.dll</HintPath>
+    <Reference Include="FlatBuffers">
+      <HintPath>Assets/Plugins/net35/FlatBuffers.dll</HintPath>
     </Reference>
     <Reference Include="SuperPvP.Core">
       <HintPath>Assets/Plugins/net35/SuperPvP.Core.dll</HintPath>
@@ -295,18 +292,14 @@
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/Kate/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
-    <Reference Include="FlatBuffers">
-      <HintPath>Assets/Plugins/net35/FlatBuffers.dll</HintPath>
+    <Reference Include="BCCrypto">
+      <HintPath>Assets/Plugins/netcode.io/BCCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Netcode.IO.NET">
+      <HintPath>Assets/Plugins/netcode.io/Netcode.IO.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Plugins\NetcodePluginWrapper.cs" />
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Scripts\Core\NetcodeClient.cs" />
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Scripts\Core\NetcodePacket.cs" />
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Scripts\Core\NetcodeServer.cs" />
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Scripts\Core\UnityNetcode.cs" />
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Scripts\Utils\BufferPool.cs" />
-    <Compile Include="Assets\libs\Assets\UnityNetcodeIO\Scripts\Utils\ByteBuffer.cs" />
     <Compile Include="Assets\Scripts\Configs\GameObjects.cs" />
     <Compile Include="Assets\Scripts\Configs\Prefabs.cs" />
     <Compile Include="Assets\Scripts\Configs\Tags.cs" />
@@ -319,9 +312,6 @@
     <Compile Include="Assets\Scripts\Transport\ServerCommandSender.cs" />
     <Compile Include="Assets\Scripts\Transport\ServerResponseProcessor.cs" />
     <Compile Include="Assets\Scripts\Transport\Transport.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\libs\ProjectSettings\ProjectVersion.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
