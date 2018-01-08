@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Configs;
 using SuperPvP.Core.Server;
-using SuperPvP.Core.Server.Models;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Transport
@@ -30,7 +28,7 @@ namespace Assets.Scripts.Transport
 
         private void RenderField(TransportPacket packet)
         {
-            field.RefreshFieldFromServer(packet.changes);
+            field.Map = packet.changes;
         }
 
         private void SetPlayerIdentifier(TransportPacket packet)

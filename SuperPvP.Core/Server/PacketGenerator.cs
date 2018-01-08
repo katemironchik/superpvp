@@ -64,7 +64,7 @@ namespace SuperPvP.Core.Server
 
             Packet.StartPacket(builder);
             Packet.AddTickId(builder, tickId);
-            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Update);
+            Packet.AddType(builder, SuperPvp.Core.Transport.PacketType.Command);
             Packet.AddData(builder, dataOffset);
 
             var packet = Packet.EndPacket(builder);

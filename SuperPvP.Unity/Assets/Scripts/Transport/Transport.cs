@@ -6,13 +6,13 @@ using SuperPvP.Core.Server.Models;
 using System.Collections;
 using System.Net;
 using UnityEngine;
-using UnityNetcodeIO;
 
 public class Transport : MonoBehaviour
 {
-    private int updateTimeout = 1;
-    protected NetcodeClient client;
+    private float updateTimeout = 1f;
+    protected Client client;
     protected ReliableEndpoint endpoint;
+    protected ulong playerId;
 
     private ulong tick = 0;
 
@@ -30,33 +30,39 @@ public class Transport : MonoBehaviour
     void Start()
     {
         processor = gameObject.GetComponent<ServerResponseProcessor>();
-        UnityNetcode.QuerySupport((supportStatus) =>
-        {
-            UnityNetcode.CreateClient(NetcodeIOClientProtocol.IPv4, (client) =>
-            {
-                this.client = client;
+        client = new Client();
+        connectToServer();
+    }
 
-                connectToServer();
-            });
-        });
+    void Update()
+    {
+        endpoint.Update();
     }
 
     public void SendPacketToServer(ServerGameObject change)
     {
         var buffer = PacketGenerator.CreateCommandPacket(tick, change);
-        endpoint.SendMessage(buffer, buffer.Length, QosType.Reliable);
+        endpoint.SendMessage(buffer, buffer.Length, QosType.Unreliable);
     }
 
     private void connectToServer()
     {
         var factory = new TokenFactory(0x1122334455667788L, _privateKey);
+        playerId = (ulong)Random.Range(1, 100);
         byte[] connectToken = factory.GenerateConnectToken(new IPEndPoint[] { new IPEndPoint(IPAddress.Parse("192.168.1.70"), 12345) },
             30,
             5,
             1UL,
-            1UL,
+            playerId,
             new byte[256]);
-        
+
+        client.Connect(connectToken);
+        client.OnStateChanged += UpdateStatus;
+        client.OnMessageReceived += (payload, payloadSize) =>
+        {
+            endpoint.ReceivePacket(payload, payloadSize);
+        };
+
         endpoint = new ReliableEndpoint
         {
             ReceiveCallback = (buffer, size) =>
@@ -65,7 +71,6 @@ public class Transport : MonoBehaviour
                 if (packet.TickId > tick)
                 {
                     processor.Process(packet);
-                    print("Recived: " + packet);
                     tick = packet.TickId;
                 }
                 else
@@ -73,41 +78,16 @@ public class Transport : MonoBehaviour
                     print("Skip: " + packet);
                 }
             },
-            TransmitCallback = (buffer, size) =>
+            TransmitCallback = (payload, payloadSize) =>
             {
-                client.Send(buffer);
+                client.Send(payload, payloadSize);
             }
-        };
-
-        client.Connect(connectToken, () =>
-        {
-            print("Connected to netcode.io server!");
-
-            // add listener for network messages
-            client.AddPayloadListener((client, packet) =>
-            {
-                endpoint.ReceivePacket(packet.PacketBuffer.InternalBuffer, packet.PacketBuffer.InternalBuffer.Length);
-            });
-
-            StartCoroutine(UpdateStatus());
-            StartCoroutine(UpdateEndpoint());
-        }, (err) =>
-        {
-            print("Failed to connect: " + err);
-        });
+        };        
     }
 
-    private IEnumerator UpdateStatus()
+    private void UpdateStatus(ClientState state)
     {
-        while (true)
-        {
-            client.QueryStatus((status) =>
-            {
-                print(string.Format("status: {0}({1})", status, (int)status));
-            });
-
-            yield return new WaitForSeconds(updateTimeout);
-        }
+        print(string.Format("status: {0}({1})", state.ToString(), (int)state));
     }
 
     private IEnumerator UpdateEndpoint()

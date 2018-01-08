@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Configs;
 using SuperPvP.Core.Server.Models;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameField : MonoBehaviour
@@ -9,6 +10,8 @@ public class GameField : MonoBehaviour
     public int PlayerId;
     private GameObject[,] tiles = new GameObject[EnvironmentConfig.FieldSize, EnvironmentConfig.FieldSize];
     private Dictionary<int, GameObject> objects = new Dictionary<int, GameObject>();
+
+    public List<ServerGameObject> Map = new List<ServerGameObject>();
 
     // Use this for initialization
     void Start()
@@ -39,7 +42,11 @@ public class GameField : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Map.Any())
+        {
+            RefreshFieldFromServer(Map);
+            Map.Clear();
+        }
     }
 
     public void RefreshFieldFromServer(List<ServerGameObject> serverData)
