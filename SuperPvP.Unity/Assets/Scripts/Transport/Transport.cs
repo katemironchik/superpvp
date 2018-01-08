@@ -49,7 +49,14 @@ public class Transport : MonoBehaviour
     {
         var factory = new TokenFactory(0x1122334455667788L, _privateKey);
         clientId = Random.Range(1, 100);
-        byte[] connectToken = factory.GenerateConnectToken(new IPEndPoint[] { new IPEndPoint(IPAddress.Parse("192.168.1.70"), 12345) },
+        string ip = "192.168.1.70";
+        ip = "54.243.1.231";
+        byte[] connectToken = factory.GenerateConnectToken(
+            new IPEndPoint[]
+            {
+                new IPEndPoint(IPAddress.Parse(ip), 12345),
+                new IPEndPoint(IPAddress.Parse("172.31.26.109"), 12345)
+            },
             30,
             5,
             1UL,
