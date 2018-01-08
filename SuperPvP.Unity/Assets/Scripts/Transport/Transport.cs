@@ -12,7 +12,7 @@ public class Transport : MonoBehaviour
     private float updateTimeout = 1f;
     protected Client client;
     protected ReliableEndpoint endpoint;
-    protected ulong playerId;
+    private int clientId;
 
     private ulong tick = 0;
 
@@ -48,12 +48,12 @@ public class Transport : MonoBehaviour
     private void connectToServer()
     {
         var factory = new TokenFactory(0x1122334455667788L, _privateKey);
-        playerId = (ulong)Random.Range(1, 100);
+        clientId = Random.Range(1, 100);
         byte[] connectToken = factory.GenerateConnectToken(new IPEndPoint[] { new IPEndPoint(IPAddress.Parse("192.168.1.70"), 12345) },
             30,
             5,
             1UL,
-            playerId,
+            (ulong)clientId,
             new byte[256]);
 
         client.Connect(connectToken);

@@ -4,11 +4,17 @@ public class Player : MonoBehaviour
 {
     private Vector3? targetDirection;
 
+    public bool IsEnemy;
+
     // Use this for initialization
     void Start()
     {
         var size = gameObject.GetComponent<Renderer>().bounds.size;
         transform.position = new Vector3(transform.position.x, size.y / 2, transform.position.z);
+        if (IsEnemy)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
     }
 
     // Update is called once per frame

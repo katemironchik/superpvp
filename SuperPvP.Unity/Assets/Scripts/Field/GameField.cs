@@ -7,9 +7,10 @@ using UnityEngine;
 public class GameField : MonoBehaviour
 {
     private Dictionary<GameObjectType, GameObject> prefabs;
-    public int PlayerId;
     private GameObject[,] tiles = new GameObject[EnvironmentConfig.FieldSize, EnvironmentConfig.FieldSize];
     private Dictionary<int, GameObject> objects = new Dictionary<int, GameObject>();
+    
+    public int PlayerId;
 
     public List<ServerGameObject> Map = new List<ServerGameObject>();
 
@@ -69,7 +70,7 @@ public class GameField : MonoBehaviour
         if (objects.ContainsKey(serverGameObject.Id))
         {
             go = objects[serverGameObject.Id];
-            if (serverGameObject.Type == GameObjectType.Player || serverGameObject.Type == GameObjectType.Enemy)
+            if (serverGameObject.Type == GameObjectType.Player)
             {
                 go.GetComponent<Player>().MoveTo(serverToGamePosition);
             }
@@ -77,6 +78,10 @@ public class GameField : MonoBehaviour
         else
         {
             go = Instantiate(prefabs[serverGameObject.Type]);
+            if (serverGameObject.Type == GameObjectType.Player)
+            {
+                go.GetComponent<Player>().IsEnemy = serverGameObject.Id != PlayerId;
+            }
             objects.Add(serverGameObject.Id, go);
             go.transform.position = serverToGamePosition;
             go.GetComponent<ServerIdKeeper>().ServerId = serverGameObject.Id;
