@@ -5,7 +5,9 @@ using SuperPvP.Core.Server;
 using SuperPvP.Core.Server.Models;
 using System.Collections;
 using System.Net;
+using Assets.Scripts.Configs;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Transport : MonoBehaviour
 {
@@ -37,12 +39,17 @@ public class Transport : MonoBehaviour
     void Update()
     {
         endpoint.Update();
+        if (endpoint.RTT != 0)
+        {
+            var ui = GameObject.Find("UI_Rtt").GetComponent("Text");
+            ((Text)ui).text = "Ping (RTT): " + endpoint.RTT;
+        }
     }
 
     public void SendPacketToServer(ServerGameObject change)
     {
         var buffer = PacketGenerator.CreateCommandPacket(tick, change);
-        endpoint.SendMessage(buffer, buffer.Length, QosType.Unreliable);
+        endpoint.SendMessage(buffer, buffer.Length, QosType.Reliable);
     }
 
     private void connectToServer()
@@ -55,7 +62,7 @@ public class Transport : MonoBehaviour
             new IPEndPoint[]
             {
                 new IPEndPoint(IPAddress.Parse(ip), 12345),
-                new IPEndPoint(IPAddress.Parse("172.31.26.109"), 12345)
+                new IPEndPoint(IPAddress.Parse("0.0.0.0"), 12345)
             },
             30,
             5,
@@ -89,7 +96,7 @@ public class Transport : MonoBehaviour
             {
                 client.Send(payload, payloadSize);
             }
-        };        
+        };
     }
 
     private void UpdateStatus(ClientState state)
